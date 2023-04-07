@@ -41,6 +41,8 @@ public class DriverManager extends FunctionalLibrary{
 		Screenpathdir.mkdirs();
 		
 		
+	
+		
 		browserOpen();
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
@@ -121,7 +123,7 @@ public class DriverManager extends FunctionalLibrary{
 				 options.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
 				 options.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
 			//	System.out.println(options.getVersion());
-				Runtime.getRuntime().exec("TASKKILL /IM chrome.exe /F"); 
+			Runtime.getRuntime().exec("TASKKILL /IM chrome.exe /F"); 
 			    Runtime.getRuntime().exec("taskkill /im chromedriver.exe /f "); 
 				Thread.sleep(5000);
 			    driver = new ChromeDriver(options);

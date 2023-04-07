@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,12 +37,14 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
 import com.google.common.io.Files;
-import com.relevantcodes.extentreports.LogStatus;
-import com.relevantcodes.extentreports.model.Log;
+//-import com.relevantcodes.extentreports.LogStatus;
+//-import com.relevantcodes.extentreports.model.Log;
 import com.test.qa.globalvariables.GlobalVariables;
-import com.test.qa.utilities.ExtentReportManager;
-
+//-import com.test.qa.utilities.ExtentReportManager;
+import com.test.qa.utilities.ExtentReportManager2;
 public class FunctionalLibrary extends GlobalVariables {
 	
 	@FindBy(xpath="//body")
@@ -61,8 +64,9 @@ public class FunctionalLibrary extends GlobalVariables {
 		try {
 			return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		} catch (Exception e) {
-			test.log(LogStatus.FAIL, "Error while returning current time and date",
-					"Failed to return current date and time");
+		//-	test.log(LogStatus.FAIL, "Error while returning current time and date","Failed to return current date and time");
+			test.log(Status.FAIL, "Error while returning current time and date");	
+			
 		}
 		return null;
 	}
@@ -75,13 +79,14 @@ public class FunctionalLibrary extends GlobalVariables {
 	 * 
 	 */
 
-	public String timestamp() 
+	public static String timestamp() 
 	{
 		try {
-			return new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
+			//return new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
+		 return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 		} catch (Exception e) {
-			test.log(LogStatus.FAIL, "Error while returning current time_Date", "FAILED to return date_time");
-
+			//-		test.log(LogStatus.FAIL, "Error while returning current time_Date", "FAILED to return date_time");
+			test.log(Status.FAIL, "Error while returning current time and date");	
 		}
 			return null;
 	}
@@ -228,9 +233,19 @@ public class FunctionalLibrary extends GlobalVariables {
 		} catch (Exception e) {
 			ScreenshotFilePath = ScreenshotFolderPath + "Not displayed" + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
-			extentreportmanager.tearReport();
+		//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+		//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+		//	test.log(Status.FAIL, FieldName + " having a problem due to " + e.getMessage() +
+		//			   test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath))); or use media entry where it is more customizable 
+		
+			test.log(Status.FAIL,FieldName + " having a problem due to " + e.getMessage(),
+					MediaEntityBuilder.createScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)).build());
+			
+
+			
+			
+     		extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 		}
 	}
@@ -292,14 +307,23 @@ public class FunctionalLibrary extends GlobalVariables {
 		ScreenshotFilePath = ScreenshotFolderPath + "screen" + timestamp() + ".jpg";
 		try {
 			if (expected.equalsIgnoreCase(actual)) {
-				test.log(LogStatus.PASS, "Assertion is success for the String " + expected + " & " + actual);
+			//-	test.log(LogStatus.PASS, "Assertion is success for the String " + expected + " & " + actual);
+				test.log(Status.PASS,"Assertion is success for the String " + expected + " & " + actual);
+			
+			
 			}
 
 		} catch (Exception e) {
 			ScreenshotFilePath = ScreenshotFolderPath + expected + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, "Assertion failed for the String " + expected + " & " + actual
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, "Assertion failed for the String " + expected + " & " + actual
+	//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+	//-		test.log(Status.FAIL, "Assertion failed for the String " + expected + " & " + actual +
+	//-				   test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath))); or use media entry where it is more customizable 
+			test.log(Status.FAIL, "Assertion failed for the String " + expected + " & " + actual,
+					MediaEntityBuilder.createScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)).build());
+					
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 
@@ -319,8 +343,12 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + "inputData" + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
-					"The validation got failed due to_" + e.getMessage() + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));		
+		//-	test.log(LogStatus.FAIL,
+		//			"The validation got failed due to_" + e.getMessage() + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));		
+			
+		test.log(Status.FAIL,"The validation got failed due to_" + e.getMessage() +test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+			
+			
 			
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
@@ -348,8 +376,16 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + AttributeName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, "Add the Attribute Name : (" + AttributeName + ")",
-					"Failed to add the Attribute Name" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, "Add the Attribute Name : (" + AttributeName + ")",
+	//				"Failed to add the Attribute Name" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+
+		
+			
+			
+			test.log(Status.FAIL,"Failed to add the Attribute Name" + e.getMessage() +test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+				
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 		}
@@ -419,14 +455,18 @@ public class FunctionalLibrary extends GlobalVariables {
 	public void CompareIntegers(int actual, int expected) throws Exception {
 		try {
 			if ((actual >= (expected - 1)) && (actual <= (expected + 1))) {
-				test.log(LogStatus.PASS, "Values Verified Successfully");
+			//-	test.log(LogStatus.PASS, "Values Verified Successfully");
+				test.log(Status.PASS, "Values Verified Successfully");
 
 			} else {
-				test.log(LogStatus.FAIL,  "Value Verification Failed");
-
+			//-	test.log(LogStatus.FAIL,  "Value Verification Failed");
+				test.log(Status.FAIL,  "Value Verification Failed");
 			}
 		} catch (Exception exception) {
-			test.log(LogStatus.FAIL, "Value Verification Failed");
+		//-	test.log(LogStatus.FAIL, "Value Verification Failed");
+			test.log(Status.FAIL,  "Value Verification Failed");
+				
+			
 		}
 
 	}
@@ -448,8 +488,15 @@ public class FunctionalLibrary extends GlobalVariables {
 			} else {
 				ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 				Screenshot.getScreenshot(driver, ScreenshotFilePath);
-				test.log(LogStatus.FAIL, FieldName + " having a problem due to "
-						+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-		test.log(LogStatus.FAIL, FieldName + " having a problem due to "
+		//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				
+				test.log(Status.FAIL, FieldName + " having a problem due to "
+						+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+			
+				
+				
+				
 				extentreportmanager.tearReport();
 				Assert.fail();
 			}
@@ -458,8 +505,13 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+		//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			test.log(Status.FAIL, FieldName + " having a problem due to "
+					+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 
@@ -482,8 +534,15 @@ public class FunctionalLibrary extends GlobalVariables {
 				ScreenshotFilePath = null;
 				ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 				Screenshot.getScreenshot(driver, ScreenshotFilePath);
-				test.log(LogStatus.FAIL,
-						FieldName + " having a problem " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		
+				//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+				//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+					
+					test.log(Status.FAIL, FieldName + " having a problem due to "
+							+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+				
+				
 				extentreportmanager.tearReport();
 				Assert.fail();
 			}
@@ -491,8 +550,12 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+			//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				
+				test.log(Status.FAIL, FieldName + " having a problem due to " + e.getMessage()
+						+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
 			Assert.fail(e.getMessage());
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
@@ -522,8 +585,12 @@ public class FunctionalLibrary extends GlobalVariables {
 				ScreenshotFilePath = null;
 				ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 				Screenshot.getScreenshot(driver, ScreenshotFilePath);
-				test.log(LogStatus.FAIL,
-						FieldName + " having a problem " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+				//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+					
+					test.log(Status.FAIL, FieldName + " having a problem due to "
+							+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
 				extentreportmanager.tearReport();
 				Assert.fail();
 			}
@@ -531,8 +598,14 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+	//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				
+				test.log(Status.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+						+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+		
+			
 			extentreportmanager.tearReport();
 			Assert.fail(exception.getMessage());
 		}
@@ -552,8 +625,12 @@ public class FunctionalLibrary extends GlobalVariables {
 				ScreenshotFilePath = null;
 				ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 				Screenshot.getScreenshot(driver, ScreenshotFilePath);
-				test.log(LogStatus.FAIL, FieldName + " with the drop down value as" + dropDownvalue
-						+ " having a problem" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-		test.log(LogStatus.FAIL, FieldName + " with the drop down value as" + dropDownvalue
+		//				+ " having a problem" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				
+				test.log(Status.FAIL, FieldName + " with the drop down value as" + dropDownvalue
+				+ " having a problem" + test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
 				extentreportmanager.tearReport();
 				Assert.fail();
 			}
@@ -561,9 +638,17 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
+		//-	test.log(LogStatus.FAIL,
+		//			FieldName + " with the drop down value as" + dropDownvalue + " having a problem due to "
+		//					+ exception.getMessage() + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			test.log(Status.FAIL,
 					FieldName + " with the drop down value as" + dropDownvalue + " having a problem due to "
-							+ exception.getMessage() + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+							+ exception.getMessage() + test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(exception.getMessage());
 		}
@@ -587,8 +672,15 @@ public class FunctionalLibrary extends GlobalVariables {
 					System.out.println("SELECTING OPTIONS FROM DROPDOWN HAVING PROBLEM");
 					//ScreenshotFilePath = ScreenshotFolderPath + "DropdownOptions" + "_" + timestamp() + ".jpg";
 					Screenshot.getScreenshot(driver, ScreenshotFilePath);
-					test.log(LogStatus.FAIL, FieldName + " having a problem"+e.getMessage()
-							+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			//-		test.log(LogStatus.FAIL, FieldName + " having a problem"+e.getMessage()
+			//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+					
+					test.log(Status.FAIL, FieldName + " having a problem"+e.getMessage()
+					+ test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+	
+					
+					
+					
 					extentreportmanager.tearReport();
 					Assert.fail();
 				}
@@ -597,8 +689,13 @@ public class FunctionalLibrary extends GlobalVariables {
 			System.out.println("SELECING OPTIONS FROM DROPDOWN HAVING PROBLEM:" + e.getMessage());
 			//ScreenshotFilePath = ScreenshotFolderPath + "DropdownOptions" + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, FieldName + " having a problem due to " + e.getMessage()
+	//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			test.log(Status.FAIL, FieldName + " having a problem due to " + e.getMessage()
+			+ test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 
@@ -620,8 +717,14 @@ public class FunctionalLibrary extends GlobalVariables {
 				ScreenshotFilePath = null;
 				ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 				Screenshot.getScreenshot(driver, ScreenshotFilePath);
-				test.log(LogStatus.FAIL,
-						FieldName + " having a problem " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-			test.log(LogStatus.FAIL,
+		//				FieldName + " having a problem " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				
+				test.log(Status.FAIL, FieldName + " having a problem " + test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+				
+				
 				extentreportmanager.tearReport();
 				Assert.fail();
 			}
@@ -629,8 +732,15 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+		//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			test.log(Status.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+			+ test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(exception.getMessage());
 		}
@@ -647,14 +757,27 @@ public class FunctionalLibrary extends GlobalVariables {
 //			 	 element.click();
 				if (element.getAttribute(attributename).equalsIgnoreCase(Expected)) {
 					js.executeScript("arguments[0].style.border='2px groove red'", element);
-					test.log(LogStatus.PASS, "Verify the  text/Number(" + Expected + ")",
-							"Text/Number has been verified successfully.");
+		//-			test.log(LogStatus.PASS, "Verify the  text/Number(" + Expected + ")",
+		//					"Text/Number has been verified successfully.");
+				
+					test.log(Status.PASS, "Verify the text/Number(" + Expected + ")")
+				    .log(Status.PASS, "Text/Number has been verified successfully.");
+
+					
+					
+					
 				} else {
 					ScreenshotFilePath = null;
 					ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 					Screenshot.getScreenshot(driver, ScreenshotFilePath);
-					test.log(LogStatus.FAIL, FieldName + " having a problem "
-							+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+				//-	test.log(LogStatus.FAIL, FieldName + " having a problem "
+				//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+					
+					test.log(Status.FAIL, FieldName + " having a problem due to "
+							+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+			
+					
+					
 					extentreportmanager.tearReport();
 					Assert.fail();
 				}
@@ -663,8 +786,16 @@ public class FunctionalLibrary extends GlobalVariables {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + FieldName + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-	test.log(LogStatus.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+		//			+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			
+			
+			test.log(Status.FAIL, FieldName + " having a problem due to " + exception.getMessage()
+			+ test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(exception.getMessage());
 		}
@@ -725,19 +856,31 @@ public class FunctionalLibrary extends GlobalVariables {
 		try {
 			if (driver.getTitle().replaceAll("\\s+", "").equalsIgnoreCase(Expectdtitle.replaceAll("\\s+", ""))) {
 				System.out.println("Page Title displayed as expected");
-				test.log(LogStatus.PASS, "Actual Title: "+driver.getTitle()+" And Expected Title: "+ Expectdtitle);
+		//-		test.log(LogStatus.PASS, "Actual Title: "+driver.getTitle()+" And Expected Title: "+ Expectdtitle);
+			
+				test.log(Status.PASS, "Actual Title: " + driver.getTitle() + " and Expected Title: " + Expectdtitle);
+
+			
 			}
 			else
 			{
 				System.out.println("Page Title Verification failed");
-				test.log(LogStatus.FAIL, "Actual Title: "+driver.getTitle()+" And Expected Title: "+ Expectdtitle);
+			//-	test.log(LogStatus.FAIL, "Actual Title: "+driver.getTitle()+" And Expected Title: "+ Expectdtitle);
+				test.log(Status.FAIL, "Actual Title: " + driver.getTitle() + " and Expected Title: " + Expectdtitle);
+
 			}
 		} catch (Exception e) {
 			ScreenshotFilePath = null;
 			ScreenshotFilePath = ScreenshotFolderPath + "Pagetitle" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, driver.getTitle(),
-					"Page is not displayed as expected" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-	test.log(LogStatus.FAIL, driver.getTitle(),
+		//			"Page is not displayed as expected" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			test.log(Status.FAIL,driver.getTitle() +
+					"Page is not displayed as expected"+ test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+		
+			
+			
 			executionStatus = flag = false;
 		}
 
@@ -749,14 +892,25 @@ public class FunctionalLibrary extends GlobalVariables {
 		boolean flag = true;
 		try {
 			if (element.isDisplayed()) {
-				test.log(LogStatus.PASS, ObjName+" displayed as expected"+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//-		test.log(LogStatus.PASS, ObjName+" displayed as expected"+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			
+				test.log(Status.PASS,ObjName+" displayed as expected"+  test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+			
+			
 			}
 		} catch (Exception exception) {
 			flag = false;
 			ScreenshotFilePath = ScreenshotFolderPath + ObjName + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
-					ObjName + " having an issue" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL,
+	//				ObjName + " having an issue" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		
+			test.log(Status.FAIL,ObjName + " having an issue" +  test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+		
 		}
 		return flag;
 	}
@@ -784,8 +938,13 @@ public class FunctionalLibrary extends GlobalVariables {
 		} catch (Exception e) {
 			ScreenshotFilePath = ScreenshotFolderPath + key + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL, "Issues with key while retrieving from the property file "
-					+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, "Issues with key while retrieving from the property file "
+	//				+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		
+      test.log(Status.FAIL, "Issues with key while retrieving from the property file "+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+		
+		
 		}
 		return value;
 	}
@@ -798,8 +957,13 @@ public class FunctionalLibrary extends GlobalVariables {
 		} catch (Exception e) {
 			ScreenshotFilePath = ScreenshotFolderPath + title + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
-					"Issues with getting the title " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL,
+	//				"Issues with getting the title " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		     test.log(Status.FAIL,
+						"Issues with getting the title " +test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+		
+		
 		}
 		return title;
 	}
@@ -821,8 +985,14 @@ public class FunctionalLibrary extends GlobalVariables {
 		} catch (Exception e) {
 			ScreenshotFilePath = ScreenshotFolderPath + "window" + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
-					"Issues while switching the window " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL,
+	//				"Issues while switching the window " + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			
+			  test.log(Status.FAIL,
+					  "Issues while switching the window " +test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			
+			
 			extentreportmanager.tearReport();
 			Assert.fail(e.getMessage());
 		}
@@ -919,7 +1089,13 @@ public class FunctionalLibrary extends GlobalVariables {
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
 			js.executeScript("arguments[0].style.border='1px groove black'", bodytag);
 			js.executeScript("arguments[0].style.border=''", bodytag);
-			test.log(LogStatus.PASS, Reportdesc	+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		//	test.log(LogStatus.PASS, Reportdesc	+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+			 test.log(Status.PASS,Reportdesc	+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+				test.log(Status.PASS,Reportdesc,
+						MediaEntityBuilder.createScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)).build());
+		
+		
 		}
 		catch(Exception e)
 		{
@@ -934,7 +1110,12 @@ public class FunctionalLibrary extends GlobalVariables {
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
 			js.executeScript("arguments[0].style.border='1px groove black'", bodytag);
 			js.executeScript("arguments[0].style.border=''", bodytag);
-			test.log(LogStatus.FAIL, Reportdesc	+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+	//-		test.log(LogStatus.FAIL, Reportdesc	+ test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+		
+	// not working- test.log(Status.FAIL,Reportdesc	+test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+
+			test.log(Status.FAIL,Reportdesc,
+					MediaEntityBuilder.createScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)).build());
 		}
 		catch(Exception e)
 		{
@@ -942,6 +1123,8 @@ public class FunctionalLibrary extends GlobalVariables {
 			System.out.println("FAIL report Not completed properly"+e.getMessage());
 		}
 	}
+	
+	
 	public void catch_code(Exception e, String FieldName, String Reportdesc) throws Exception
 	{
 		System.out.println(Reportdesc + e.getMessage());
@@ -958,8 +1141,19 @@ public class FunctionalLibrary extends GlobalVariables {
 	
 	public static String ReportScreenshot(String ScreenshotFilePath) {
 		try {
-			String[] path = ScreenshotFilePath.split(dateStamp());
-			ScreenshotFilePath= path[1].substring(1);
+	//		String[] path = ScreenshotFilePath.split(dateStamp());
+	//		ScreenshotFilePath= path[1].substring(1);
+			
+			String[] pathComponents = ScreenshotFilePath.split("\\\\");
+		    int index = 0;
+		    for(int i=0; i<pathComponents.length; i++) {
+		        if(pathComponents[i].equalsIgnoreCase("Screenshots")) {
+		            index = i;
+		            break;
+		        }
+		    }
+		    String screenshotPath = String.join("\\", Arrays.copyOfRange(pathComponents, index, pathComponents.length));
+		    ScreenshotFilePath=screenshotPath;
 		} catch (Exception e) {
 			System.out.println("Path of Screenhots=" + ScreenshotFilePath);
 		}

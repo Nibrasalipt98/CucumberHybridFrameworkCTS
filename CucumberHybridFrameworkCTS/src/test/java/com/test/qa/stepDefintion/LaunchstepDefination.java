@@ -5,7 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.Status;
+//import com.relevantcodes.extentreports.LogStatus;
 import com.test.qa.pagefactory.LaunchPageFactory;
 
 import io.cucumber.java.en.*;
@@ -58,7 +59,8 @@ public class LaunchstepDefination extends LaunchPageFactory {
 			System.out.println(applicationURL+UserID);
 			driver.get(applicationURL+UserID);
 			System.out.println("URL: "+applicationURL+UserID+" is launched");
-			test.log(LogStatus.PASS, "URL: "+applicationURL+UserID+" is launched");
+	//-		test.log(LogStatus.PASS, "URL: "+applicationURL+UserID+" is launched");
+			test.log(Status.PASS, "URL: "+applicationURL+UserID+" is launched");
 						
 			} catch (Exception e) {
 			e.getMessage();

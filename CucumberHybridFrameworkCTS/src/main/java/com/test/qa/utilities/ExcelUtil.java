@@ -24,7 +24,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.Status;
+//-import com.relevantcodes.extentreports.LogStatus;
 import com.test.qa.globalvariables.GlobalVariables;
 import com.test.qa.libraries.FunctionalLibrary;
 
@@ -59,7 +60,8 @@ public class ExcelUtil extends GlobalVariables{
 				}
 				else if(i==lastRow)
 				{
-					test.log(LogStatus.FAIL, value+" not found in the Excel");
+					//-	test.log(LogStatus.FAIL, value+" not found in the Excel");
+					test.log(Status.FAIL, value+" not found in the Excel");
 					Assert.fail(value+" not found in the Excel");
 				}
 			}
@@ -86,7 +88,8 @@ public class ExcelUtil extends GlobalVariables{
 				}
 				else if(i==lastrownum-1)
 				{
-					test.log(LogStatus.FAIL, "Column name "+colName+" not found in the Excel");
+				//-	test.log(LogStatus.FAIL, "Column name "+colName+" not found in the Excel");
+					test.log(Status.FAIL,"Column name "+colName+" not found in the Excel");
 					Assert.fail("Column name "+colName+" not found in the Excell");
 				}
 				

@@ -14,12 +14,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+//-import com.relevantcodes.extentreports.ExtentReports;
+//-import com.relevantcodes.extentreports.ExtentTest;
 //import com.test.qa.stepDefinition.SqlConnection;
 import com.test.qa.utilities.DriverManager;
 import com.test.qa.utilities.ExcelUtil;
-import com.test.qa.utilities.ExtentReportManager;
+//-import com.test.qa.utilities.ExtentReportManager;
+import com.test.qa.utilities.ExtentReportManager2;
 import com.test.qa.utilities.Screenshot;
 import com.test.qa.utilities.SqlConnection;
 
@@ -36,7 +39,9 @@ public static String ScreenshotFolderPath,ScreenshotFilePath;
 
 public static Screenshot Screenshot=new Screenshot();
 public static ExcelUtil excelUtil = new ExcelUtil();
-public static ExtentReportManager extentreportmanager = new ExtentReportManager();
+//public static ExtentReportManager extentreportmanager = new ExtentReportManager();
+public static ExtentReportManager2 extentreportmanager = new ExtentReportManager2();
+
 public static DriverManager drivermanager = new DriverManager();
 public JavascriptExecutor js = (JavascriptExecutor) driver;
 

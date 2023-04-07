@@ -1,17 +1,10 @@
 package com.test.qa.stepDefintion;
-
-import java.io.IOException;
-
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.PageFactory;
-
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.Status;
+//import com.relevantcodes.extentreports.LogStatus;
 import com.test.qa.pagefactory.TestFeaturePageClass;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
 public class TestFeature extends TestFeaturePageClass {
@@ -32,9 +25,12 @@ public class TestFeature extends TestFeaturePageClass {
 		System.out.println("Current Status " + status);
 
 		if (status.contentEquals("Pass")) {
-			test.log(LogStatus.PASS, "PASS");
+				test.log(Status.PASS, "PASS");
 		} else {
-			test.log(LogStatus.FAIL, "FAILED");   // used for failure in eclipse
+		  	test.log(Status.FAIL, "FAIL");
+			FAILreport("SC_Name",
+					"Issue details");
+			
 			Assert.fail();    // used to mark test as failed in console and Junit tab of tsetcase
 		}
 	}

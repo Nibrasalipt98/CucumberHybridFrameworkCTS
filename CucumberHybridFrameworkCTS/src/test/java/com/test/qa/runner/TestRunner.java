@@ -4,7 +4,7 @@ package com.test.qa.runner;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import com.test.qa.libraries.FunctionalLibrary;
-import com.test.qa.utilities.ExtentReportManager;
+import com.test.qa.utilities.ExtentReportManager2;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -16,13 +16,14 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(features ="src/test/resources/features/Feature1.feature",
 				glue ="com.test.qa.stepDefintion",
 			dryRun = false, 
+			tags="@fail",
 		 monochrome = true
 		 ,plugin = {"pretty","html:target/cucumber-reports/cucumber-report.html"})
 
 public class TestRunner {
 	@AfterClass()
 	public static void tearReport() throws Exception {
-		ExtentReportManager extentreportmanager = new ExtentReportManager();
+		ExtentReportManager2 extentreportmanager = new ExtentReportManager2();
 		FunctionalLibrary libs = new FunctionalLibrary();
 		extentreportmanager.tearReport();
 		if (libs.getProperty("MFA") != "True") {

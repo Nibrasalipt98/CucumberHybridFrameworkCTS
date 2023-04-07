@@ -25,7 +25,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.Status;
+//import com.relevantcodes.extentreports.LogStatus;
 import com.test.qa.libraries.FunctionalLibrary;
 
 public class PendingBudgetApprover extends FunctionalLibrary {
@@ -75,10 +76,18 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].click();", BA_Pendingscreenlink);
 			// BA_Pendingscreenlink.click();
-			test.log(LogStatus.PASS, "Clicked on Approve Pre-Travel Approval Request(s)hyperlink successfully");
+	//-		test.log(LogStatus.PASS, "Clicked on Approve Pre-Travel Approval Request(s)hyperlink successfully");
+			test.log(Status.PASS, "Clicked on Approve Pre-Travel Approval Request(s)hyperlink successfully");
+			
+			
+			
 			PASSreport("Budget Approver Pending Screen", "On Budget Approver Pending Screen");
 		} catch (Exception e) {
-			test.log(LogStatus.FAIL, "Unable to click on on Approve Pre-Travel Approval Request(s)hyperlink" + e);
+		//	test.log(LogStatus.FAIL, "Unable to click on on Approve Pre-Travel Approval Request(s)hyperlink" + e);
+			
+			test.log(Status.FAIL,"Unable to click on on Approve Pre-Travel Approval Request(s)hyperlink" + e);
+			
+			
 			FAILreport("Approve Pre-Travel Approval Request(s) hyperlink",
 					"Unable to click on on Approve Pre-Travel Approval Request(s)hyperlink");
 		}
@@ -105,9 +114,14 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 		} catch (Exception exception) {
 			ScreenshotFilePath = ScreenshotFolderPath + obj + "_" + timestamp() + ".jpg";
 			Screenshot.getScreenshot(driver, ScreenshotFilePath);
-			test.log(LogStatus.FAIL,
-					obj + " having an issue" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
+//-			test.log(LogStatus.FAIL,
+//					obj + " having an issue" + test.addScreenCapture(ReportScreenshot(ScreenshotFilePath)));
 
+			test.log(Status.FAIL,
+					obj + " having an issue" + test.addScreenCaptureFromPath(ReportScreenshot(ScreenshotFilePath)));
+	
+			
+			
 		}
 	}
 
@@ -115,10 +129,14 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 	{
 		try {
 			clickOnButton( morelink,linkname );
-			test.log(LogStatus.PASS, "Clicked on "+linkname+" successfully");
+		//	test.log(LogStatus.PASS, "Clicked on "+linkname+" successfully");
+			test.log(Status.PASS, "Clicked on "+linkname+" successfully");
+			
 			
 		}catch (Exception e) {
-			test.log(LogStatus.FAIL, "Unable to click on more filters" + e);
+			//test.log(LogStatus.FAIL, "Unable to click on more filters" + e);
+			test.log(Status.FAIL, "Unable to click on more filters" + e);
+			
 			FAILreport("More Filter link",
 					"Unable to click on more filters");
 		}	
@@ -161,7 +179,10 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 
 			}
 		}catch (Exception e) {
-			test.log(LogStatus.FAIL, "Unable to VerifyAdditionaldropdownlabels" + e);
+		//	test.log(LogStatus.FAIL, "Unable to VerifyAdditionaldropdownlabels" + e);
+			test.log(Status.FAIL, "Unable to VerifyAdditionaldropdownlabels" + e);
+			
+			
 			FAILreport("Additionaldropdownlabels",
 					"Unable to VerifyAdditionaldropdownlabels");
 		}
@@ -183,7 +204,9 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 			
 			
 	}catch (Exception e) {
-		test.log(LogStatus.FAIL, "Unable to VerifyAdditionaldropdown display" + e);
+		//test.log(LogStatus.FAIL, "Unable to VerifyAdditionaldropdown display" + e);
+		test.log(Status.FAIL, "Unable to VerifyAdditionaldropdown display" + e);
+		
 		FAILreport("Additionaldropdownlabels",
 				"Unable to VerifyAdditionaldropdown display");
 	}	
@@ -242,7 +265,9 @@ public class PendingBudgetApprover extends FunctionalLibrary {
 			
 			
 		}catch (Exception e) {
-	     		test.log(LogStatus.FAIL, "Unable to fetch dropdown values" + e);
+	     	//	test.log(LogStatus.FAIL, "Unable to fetch dropdown values" + e);
+	     		test.log(Status.FAIL, "Unable to fetch dropdown values" + e);
+		     	
 	     		FAILreport("Dropdown Values",
 	     				"Unable to fetch dropdown values");
 	     	}    
